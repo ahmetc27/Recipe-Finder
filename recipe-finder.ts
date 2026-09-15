@@ -31,3 +31,5 @@ async function loadRecipes() {
 const recipes = await loadRecipes();
 //console.log(recipes);
 console.log(`${recipes.length} recipes loaded`);
+
+const searchTerm = process.argv[2];
