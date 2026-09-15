@@ -1,5 +1,15 @@
 export {};
 
+type Recipe = {
+    id: number,
+    name: string,
+    cuisine: string,
+    difficulty: string,
+    prepTimeMinutes: number,
+    cookTimeMinutes: number,
+    rating: number
+}
+
 async function loadRecipes() {
     try {
         const response = await fetch("https://dummyjson.com/recipes?limit=50&select=name,cuisine,difficulty,prepTimeMinutes,cookTimeMinutes,rating");
@@ -19,4 +29,5 @@ async function loadRecipes() {
 }
 
 const recipes = await loadRecipes();
+//console.log(recipes);
 console.log(`${recipes.length} recipes loaded`);
