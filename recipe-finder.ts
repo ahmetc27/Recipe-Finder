@@ -47,10 +47,21 @@ function displayResults(recipes: Recipe[]): void {
     }
 }
 
-const recipes = await loadRecipes();
-const searchTerm = process.argv[2];
-const results = recipes.filter(matchSearch);
+function userInputExists(): boolean {
+    if (process.argv.length < 3) {
+        return false;
+    }
+    return true;
+}
 
-console.log(`${recipes.length} recipes loaded`);
-displayResults(results);
+const searchTerm = process.argv[2];
+
+if (userInputExists()) {
+    const recipes = await loadRecipes();
+    const results = recipes.filter(matchSearch);
+    console.log(`${recipes.length} recipes loaded`);
+    displayResults(results);
+} else {
+    console.log("Please enter a search term, e.g. node recipe-finder.ts pizza");
+}
 
