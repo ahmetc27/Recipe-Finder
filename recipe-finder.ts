@@ -28,12 +28,6 @@ async function loadRecipes(): Promise<Recipe[]> {
     }
 }
 
-const recipes = await loadRecipes();
-//console.log(recipes);
-console.log(`${recipes.length} recipes loaded`);
-
-const searchTerm = process.argv[2];
-
 function matchSearch(recipe: Recipe): boolean {
     const lowerName = recipe.name.toLowerCase();
     const lowerTerm = searchTerm.toLowerCase();
@@ -41,14 +35,22 @@ function matchSearch(recipe: Recipe): boolean {
     return isMatch;
 }
 
+function displayResults(recipes: Recipe[]): void {
+    if (recipes.length > 0) {
+        for (const recipe of recipes) {
+            const totalMinutes = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
+            console.log(`${recipe.name} (${recipe.cuisine}, ${recipe.difficulty}) - ${totalMinutes} min - rating ${recipe.rating}`);
+        }
+        console.log(`${recipes.length} recipes found`);
+    } else {
+        console.log(`No recipes found for "${searchTerm}"`);
+    }
+}
+
+const recipes = await loadRecipes();
+const searchTerm = process.argv[2];
 const results = recipes.filter(matchSearch);
 
-if (results.length !== 0) {
-    for (const recipe of results) {
-        const totalMinutes = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
-        console.log(`${recipe.name} (${recipe.cuisine}, ${recipe.difficulty}) - ${totalMinutes} min - rating ${recipe.rating}`);
-    }
-    console.log(`${results.length} recipes found`);
-} else {
-    console.log(`No recipes found for "${searchTerm}"`);
-}
+console.log(`${recipes.length} recipes loaded`);
+displayResults(results);
+
